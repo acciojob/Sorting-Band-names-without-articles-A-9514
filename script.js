@@ -1,21 +1,31 @@
-function strip(bandName) {
-  return bandName.replace(/^(a |the |an )/i, '').trim();
-}
+//your code here
 
-const sortedBans = bands.sort(function (a, b){
- if(a > b) {
-    return 1;
- }  else {
-    return -1;
- }
-})
+document.addEventListener('DOMContentLoaded', function () {
+  let touristSpots = ['The Virupaksha Temple', 'Victoria Memorial', 'Tajmahal'];
 
-console.log (sortedBands)
+  // Function to remove articles and get lexicographically sorted array
+  function getSortedNamesWithNoArticles(names) {
+    return names.map(name => {
+      // Remove leading articles and trim
+      const cleanedName = name.replace(/^(a|an|the)\s+/i, '').trim();
+      return { original: name, cleaned: cleanedName };
+    }).sort((a, b) => a.cleaned.localeCompare(b.cleaned))
+      .map(entry => entry.original);
+  }
 
-const sortedBands = bands.sort((a,b) => strip(a) > strip(b) ? 1 : -1);
+  const sortedTouristSpots = getSortedNamesWithNoArticles(touristSpots);
 
-document.querySelector("#bands").innerHTML = 
-  sortedBands
-  .map(band => `<li>${band}</li>`)
-  .join('') 
+  // Create ul element
+  const ulElement = document.createElement('ul');
+  ulElement.id = 'band';
 
+  // Create and append li elements
+  sortedTouristSpots.forEach(name => {
+    const liElement = document.createElement('li');
+    liElement.textContent = name;
+    ulElement.appendChild(liElement);
+  });
+
+  // Append the ul element to the body
+  document.body.appendChild(ulElement);
+});
